@@ -8,6 +8,7 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
+  bool mode = true;
   String currentDisplay = "";
   String result = "";
   @override
@@ -15,9 +16,37 @@ class _CalculatorState extends State<Calculator> {
     return Column(
       children: [
         Expanded(
-          flex: 3,
+          flex: 1,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children:[
+                Icon(
+                  Icons.menu,
+                  size: 50,
+                ),
+                
+                TextButton(
+                  child: Icon(
+                    mode == true ? Icons.nightlight_outlined : Icons.nightlight,
+                    size: 40,
+                    color: Colors.black,
+                  ),
+                  onPressed: (){
+                    setState((){
+                      mode = mode == true ? mode = false : mode = true;
+                    });
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 2,
           child: Container(
-            margin: EdgeInsets.all(20),
+            margin: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             decoration: BoxDecoration(
               color: Color.fromARGB(202, 108, 128, 126),
               borderRadius: BorderRadius.circular(15),
@@ -27,33 +56,32 @@ class _CalculatorState extends State<Calculator> {
                 Expanded(
                   flex: 4,
                   child: Container(
-                    width: 600,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15),
-                      ),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    width: 500,
                     alignment: Alignment.centerRight,
                     child: Text("$currentDisplay",
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 40,
+                        fontSize: 25,
+                        color: Color.fromARGB(201, 197, 230, 226)
                       ),
                     ),
                   ),
                 ),
                 Expanded(
-                  flex: 8,
+                  flex: 6,
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                    )
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.centerRight,
+                    child: Text("$result",
+                      style: TextStyle(
+                        fontSize: 45,
+
+                      ),
+                    ),
                   ),
                 ),
-              ]),
+              ]
+            ),
           ),
         ),
 
@@ -64,7 +92,7 @@ class _CalculatorState extends State<Calculator> {
 
 
         Expanded(
-          flex: 6,
+          flex: 7,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
@@ -198,7 +226,7 @@ class _CalculatorState extends State<Calculator> {
                       ),
                       onPressed: (){
                         setState((){
-                          currentDisplay = currentDisplay + "/";
+                          currentDisplay = currentDisplay + "*";
                         });
                       }
                     ),
