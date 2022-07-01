@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 class Calculator extends StatefulWidget {
   Calculator({Key? key}) : super(key: key);
@@ -92,7 +93,7 @@ class _CalculatorState extends State<Calculator> {
 
 
         Expanded(
-          flex: 7,
+          flex: 6,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
@@ -113,6 +114,7 @@ class _CalculatorState extends State<Calculator> {
                       onPressed: (){
                         setState((){
                           currentDisplay = "";
+                          result = "";
                         });
                       }
                     ),
@@ -357,7 +359,7 @@ class _CalculatorState extends State<Calculator> {
                   ],
                 ),
 
-Row(
+              Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     TextButton(
@@ -412,14 +414,18 @@ Row(
                         minimumSize: Size(70, 70),
                       ),
                       onPressed: (){
+                        Parser parser = new Parser();
+                        Expression expression = parser.parse(currentDisplay);
+                        ContextModel contextModel = ContextModel();
+                        var evaluatedExpression = expression.evaluate(EvaluationType.REAL, contextModel);
                         setState((){
-                          currentDisplay = currentDisplay + "=";
+                          result = evaluatedExpression.toString();
+                          currentDisplay = evaluatedExpression.toString();
                         });
                       }
                     ),
                   ],
                 ),
-                
               ],
             ),
           ),
